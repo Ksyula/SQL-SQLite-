@@ -1,2 +1,0 @@
-/*Output the last tuple in the table*/
-SELECT * FROM purchases ORDER BY ROWID DESC LIMIT 1;
