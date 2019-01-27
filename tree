@@ -1,0 +1,24 @@
+/*Binary Tree. Query to identify ROOT, INNER and LEAF of the tree from table Tree, where P_ID is the parental node ID.
+Sort output in the increasing order of the node IDs.*/
+
+SELECT * FROM(
+SELECT ID, CASE WHEN P_ID IS NULL THEN 'ROOT' ELSE NULL  END TYPE FROM TREE
+UNION
+SELECT ID, CASE WHEN P_ID = (SELECT ID 
+                             FROM (SELECT ID, CASE WHEN P_ID IS NULL 
+                                                   THEN 'ROOT' ELSE NULL  END TYPE 
+                                    FROM TREE) WHERE TYPE = 'ROOT') 
+                THEN 'INNER' ELSE NULL END TYPE 
+FROM TREE
+UNION
+SELECT ID, CASE WHEN P_ID IN (SELECT ID 
+                                FROM (SELECT ID, CASE WHEN P_ID = (SELECT ID 
+                                         FROM (SELECT ID, CASE WHEN P_ID IS NULL THEN 'ROOT' ELSE NULL  END TYPE 
+                                                 FROM TREE) WHERE TYPE = 'ROOT') 
+                                                      THEN 'INNER' ELSE NULL END TYPE            
+FROM TREE) WHERE TYPE = 'INNER')
+                THEN 'LEAF' ELSE NULL END TYPE
+FROM TREE)
+WHERE TYPE IS NOT NULL
+ORDER BY ID;
+
