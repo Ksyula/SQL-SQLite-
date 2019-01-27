@@ -1,9 +1,0 @@
-/*CalcuLatitudee the sum of the total revenue in the 2018, round to 2 decimal for a sellers, who:
-1. have the same Revenue_2017 value as one or more other sellers
-2. they are not located in the same city as another seller (have unique Latitudeitude-Longitudegitude pair)*/
-SELECT round(SUM(Revenue_2018),2) AS TOTAL_REVENUE FROM (SELECT SellerID, Revenue_2017, Revenue_2018 
-                FROM shops 
-                GROUP BY Latitude, Longitude HAVING COUNT(*))
-WHERE Revenue_2017 IN (SELECT Revenue_2017 
-                    FROM (SELECT Revenue_2017, COUNT(Revenue_2017) AS COUNT 
-                            FROM shops GROUP BY Revenue_2017) WHERE COUNT > 1)
