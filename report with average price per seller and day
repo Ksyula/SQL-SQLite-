@@ -1,0 +1,7 @@
+/*Query a report, where avg_price is average price by seller for each day then by the day and leastly overall. */
+SELECT Date, SellerID, round(AVG(Price), 2) AS avg_price
+FROM purchases GROUP BY SellerID, Date 
+UNION 
+SELECT Date, 'Total' AS 'SellerID', AVG(Price) AS avg_price FROM purchases GROUP BY Date 
+UNION 
+SELECT 'Overall' AS 'Date', 'Total' AS 'SellerID', AVG(Price) AS avg_price FROM purchases ORDER BY Date, SellerID

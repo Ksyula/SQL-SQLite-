@@ -1,0 +1,12 @@
+/*Report with revenue per date by sellers */
+SELECT data_20.SellerID, IFNULL(data_20.sum_20, 0) AS 'Sum Jan 20 ', IFNULL(data_21.sum_21, 0) AS 'Sum Jan 21 ' FROM 
+          (SELECT SellerID, SUM(Price) AS sum_20 FROM purchases WHERE Date = '2019-01-20' GROUP BY SellerID) data_20
+LEFT OUTER JOIN 
+          (SELECT SellerID, SUM(Price) AS sum_21 FROM purchases WHERE Date = '2019-01-21' GROUP BY SellerID) data_21
+ON data_21.SellerID = data_20.SellerID
+UNION
+SELECT data_21.SellerID, IFNULL(data_20.sum_20, 0) AS 'Sum Jan 20 ', IFNULL(data_21.sum_21, 0) AS 'Sum Jan 21 ' FROM 
+          (SELECT SellerID, SUM(Price) AS sum_21 FROM purchases WHERE Date = '2019-01-21' GROUP BY SellerID) data_21
+LEFT OUTER JOIN 
+          (SELECT SellerID, SUM(Price) AS sum_20 FROM purchases WHERE Date = '2019-01-20' GROUP BY SellerID) data_20
+ON data_20.SellerID = data_21.SellerID

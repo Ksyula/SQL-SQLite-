@@ -1,0 +1,6 @@
+/*Find the number of clients by those sellers, who sold anything on both days.*/
+SELECT SellerID, COUNT(DISTINCT ClientID)
+FROM purchases 
+WHERE SellerID IN (SELECT SellerID
+                    FROM purchases GROUP BY SellerID HAVING COUNT(DISTINCT Date) > 1)
+GROUP BY SellerID
