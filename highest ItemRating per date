@@ -1,4 +1,7 @@
 /*Select clients, who bought an item with the highest rating per date.*/
+
 SELECT Date, ClientID, ItemRating 
 FROM purchases 
-WHERE ItemRating IN (SELECT max(ItemRating) AS ItemRating  FROM purchases  GROUP BY Date)
+WHERE ItemRating IN (SELECT max(ItemRating) AS ItemRating  
+                     FROM purchases  
+                     GROUP BY Date);
